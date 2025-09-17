@@ -7,7 +7,7 @@ namespace IntegrationService.Infrastructure;
 public class ClientAWebhookAdapter : INotificationAdapter
 {
     private readonly ILogger<ClientAWebhookAdapter> _logger;
-    public string ClientType => "TIENDAS PERUANAS S.A."; // Coincide con el clientName del JSON de ejemplo
+    public string ClientType => "TIENDAS PERUANAS S.A."; 
 
     public ClientAWebhookAdapter(ILogger<ClientAWebhookAdapter> logger)
     {

@@ -21,7 +21,6 @@ public class WebhookController : ControllerBase
     [HttpPost("tms-events")]
     public IActionResult PostTmsEvent([FromBody] TmsEvent tmsEvent)
     {
-        // ... (el resto del código es idéntico al de la respuesta anterior)
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
