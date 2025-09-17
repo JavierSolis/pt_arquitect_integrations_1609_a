@@ -52,17 +52,20 @@ La solución está desarrollada en .NET 8 y simula la arquitectura diseñada sin
 
 # Documentación
 
-### 📄 `doc/1_arquitectura.md`
+### 📄 [`doc/1_arquitectura.md`](doc/1_arquitectura.md)
 
 - El **Diagrama de Arquitectura** completo.
-- La **definición de conceptos clave** (Webhook, API Gateway, Colas, Multi-AZ).
+- La **definición de componentes clave**.
 - La **Justificación de los Patrones de Diseño** elegidos (Arquitectura Orientada a Eventos, Patrón Adaptador, etc.).
 
-### 📄 `doc/2_implementacion.md`
+### 📄 [`doc/2_implementacion.md`](doc/2_implementacion.md)
 
 - El **Backlog de Implementación** (la lista de pasos y tareas seguidas).
 - Detalles sobre la **Estructura del Proyecto** en .NET.
 - Los **Escenarios de Prueba** y los comandos `curl` para ejecutarlos.
+
+<br>
+<br>
 
 # Setup
 
