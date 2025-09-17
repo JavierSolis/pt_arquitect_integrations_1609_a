@@ -1,11 +1,12 @@
 <div align="center">
     <img src="doc/images/cover.png" align="center" alt="drawing"/>
+</div>
 
 <br>
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/usuario/repo/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT) [![Build](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/usuario/repo/actions)
 
-</div>
+<br>
 
 # **PT - Caso Práctico: Senior Integraciones** <br>by [Javier Solis 🧑‍💻🤖🚀🎯🔍](#contact)
 
@@ -25,46 +26,33 @@ La solución está desarrollada en .NET 8 y simula la arquitectura diseñada sin
 - [Pruebas](#pruebas)
 - [Contact](#contact)
 
+<br>
+
 # Entregables
 
 ### 1. Diagrama de Arquitectura
 
-- 📄 **Ver Diagrama:** [`doc/1_arquitectura.md`](doc/1_arquitectura.md)
+- 📄 **Ver Diagrama:** [`doc/1_arquitectura.md#diagrama-de-versión-2`](doc/1_arquitectura.md#diagrama-de-versión-2)
 
 ### 2. Descripción de Componentes
 
-- 📄 **Ver Descripción:** [`doc/2_implementacion.md`](doc/2_implementacion.md)
+- 📄 **Ver Descripción:** [`doc/1_arquitectura.md#descripción-de-componentes`](doc/1_arquitectura.md#descripción-de-componentes)
 
 ### 3. Proyecto en .NET
 
 - 🔗 **Repositorio:** `https://github.com/JavierSolis/pt_arquitect_integrations_1609_a`
+- 📄 **Ver Documentación:** [`doc/2_implementacion.md#descripción-de-componentes`](doc/2_implementacion.md#descripción-de-componentes)
 
 ### 4. Justificación de Patrones de Diseño
 
 - 📄 **Ver Justificación:** [`doc/1_arquitectura.md#justificación-de-patrones-de-diseño`](doc/1_arquitectura.md#justificación-de-patrones-de-diseño)
 
-1. Diagrama de Arquitectura: Un diagrama claro que muestre el flujo y los artefactos que el participante
-   considere y los flujos de comunicación entre ellos.
-   <br> 👉 [Click para ver detalles](doc/2_implementacion.md#versión-2-según-requerimientos)
-   <br> ➡️ Corrección: [Click para ver detalles](doc/1_arquitectura.md#versión-2-según-requerimientos)
-
-2. Descripción de Componentes: Una breve descripción de la función O componente en el diagrama.
-   <br> 👉 [Click para ver descripción de componentes](doc/2_implementacion.md#versión-2-según-requerimientos)
-   <br> ➡️ Corrección: [Click para ver descripción de componentes](doc/1_arquitectura.md#descripción-de-componentes)
-
-3. Proyecto en .NET
-   <br> 👉 [https://github.com/JavierSolis/pt_arquitect_integrations_1609_a](https://github.com/JavierSolis/pt_arquitect_integrations_1609_a)
-
-4. Justificación de Patrones de Diseño.
-   <br> 👉 [Click para ver detalles](doc/1_arquitectura.md#justificación-de-patrones-de-diseño)
+<br>
+<br>
 
 # Documentación
 
-_Toda la documentación se encuentra en la carpeta `/doc`._
-
 ### 📄 `doc/1_arquitectura.md`
-
-_Este documento detalla el **"porqué"** de la solución. Contiene:_
 
 - El **Diagrama de Arquitectura** completo.
 - La **definición de conceptos clave** (Webhook, API Gateway, Colas, Multi-AZ).
@@ -72,15 +60,13 @@ _Este documento detalla el **"porqué"** de la solución. Contiene:_
 
 ### 📄 `doc/2_implementacion.md`
 
-_Este documento detalla el **"cómo"** se construyó la solución. Contiene:_
-
 - El **Backlog de Implementación** (la lista de pasos y tareas seguidas).
 - Detalles sobre la **Estructura del Proyecto** en .NET.
 - Los **Escenarios de Prueba** y los comandos `curl` para ejecutarlos.
 
 # Setup
 
-1. Instalar :
+## 1. Instalar :
 
 - Visual Studio Code<br>
   https://code.visualstudio.com/
@@ -89,7 +75,7 @@ _Este documento detalla el **"cómo"** se construyó la solución. Contiene:_
 - Instalación de la extensión C# Dev Kit<br>
   https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit
 
-2. Verificar instalación
+## 2. Verificar instalación
 
 ```shell
 # comando
@@ -98,7 +84,7 @@ dotnet --version
 8.0.414
 ```
 
-3. Clonar el proyecto
+## 3. Clonar el proyecto
 
 ```shell
 
@@ -107,7 +93,7 @@ git clone git@github.com:JavierSolis/pt_arquitect_integrations_1609_a.git
 cd pt_arquitect_integrations_1609_a
 ```
 
-4. Ejecutar el proyecto
+## 4. Ejecutar el proyecto
 
 ```shell
 # compilar
@@ -119,8 +105,9 @@ dotnet run --project src/IntegrationService.Api/IntegrationService.Api.csproj
 
 # Pruebas
 
-[Click para ir a Paso 10 en '2.Implementación'](doc/2_implementacion.md#paso-10)
-<br>➡️ Corrección: [Click para ir a Paso 10 en '2.Implementación'](doc/2_implementacion.md#paso-10-pruebas)
+- 🧪 **Ver Pruebas:** [`doc/2_implementacion.md#paso-10-pruebas`](doc/2_implementacion.md#paso-10-pruebas)
+
+<br>
 
 # Contact
 
