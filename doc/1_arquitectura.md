@@ -58,7 +58,7 @@ Se detalla la arquitectura propuesta para la integración, considerando los requ
 
 ## Diagrama de versión 2
 
-<a href="images/mermaid_down.png?raw=true" download="diagrama_integracion_mermaid.png">📥 Descargar diagrama</a>
+<a href="https://github.com/JavierSolis/pt_arquitect_integrations_1609_a/blob/main/doc/images/mermaid_down.png?raw=true" download="diagrama_integracion_mermaid.png">📥 Descargar diagrama</a>
 
 ```mermaid
 ---
@@ -139,7 +139,7 @@ graph TD
 
 ## Diagrama de versión 2 como imagen con iconos de AWS
 
-<a href="images/image_arq_eraser.png?raw=true" download="diagrama_integracion.png">📥 Descargar diagrama</a>
+<a href="https://github.com/JavierSolis/pt_arquitect_integrations_1609_a/blob/main/doc/images/image_arq_eraser.png?raw=true">📥 Descargar diagrama</a>
 
 <div align="center">
     <img src="images/image_arq_eraser.png" alt="arqutectura en otro formato" />
