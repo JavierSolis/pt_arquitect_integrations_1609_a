@@ -1,8 +1,20 @@
-# Arqutiectura propuesta
+# <h1>Arquitectura propuesta</h1>
 
-# Versión Inicial ( Idea )
+## Tabla de contenidos
 
-Se diagrama la idea principal o base de la arquitectura, para tener claro los componentes principales, el principal motivo de mejorar esta arquitectura es poder soportar miles de enviós diarios.
+- [Versión inicial (idea)](#versión-inicial-idea)
+- [Versión 2 (según requerimientos)](#versión-2-según-requerimientos)
+  - [Diagrama de versión 2](#diagrama-de-versión-2)
+  - [Diagrama de versión 2 como imagen con iconos de AWS](#diagrama-de-versión-2-como-imagen-con-iconos-de-aws)
+  - [Descripción de componentes](#descripción-de-componentes)
+  - [Justificación de patrones de diseño](#justificación-de-patrones-de-diseño)
+- [Mejoras](#mejoras)
+
+<br>
+
+# Versión inicial (idea)
+
+Se diagrama la idea principal o base de la arquitectura para tener claros los componentes principales. El principal motivo de mejorar esta arquitectura es poder soportar miles de envíos diarios.
 
 ```mermaid
 ---
@@ -40,7 +52,7 @@ graph TD
 <br>
 <br>
 
-# Versión 2 ( según requerimientos )
+# Versión 2 (según requerimientos)
 
 Se detalla la arquitectura propuesta para la integración, considerando los requerimientos de escalabilidad, observabilidad y resiliencia.
 
@@ -134,44 +146,48 @@ graph TD
 
 ## Descripción de componentes
 
-1. Api Gateway:<br>
-   Único punto de entrada público, su única responsabilidad es recibir el webhook del TMS, Existe componente eespcializado en AWS y Azure para este trabajo. (Requisito de recibir en tiempo real y confirma la recepción)
+1. API Gateway:<br>
+   Único punto de entrada público. Su única responsabilidad es recibir el webhook del TMS. Existe un componente especializado en AWS y Azure para este trabajo. (Requisito: recibir en tiempo real y confirmar la recepción)
 
 2. Cola Principal de Eventos:<br>
-   Persiste los eventos, asegurando que no se pierdan si los sistemas posteriores fallan. Permite que el Procesador Principal consuma los eventos a su propio ritmo. Se configura con una política de reintentos (ej. reintentar 3 veces con esperas exponenciales). Cumpliendo el requisito de Lógica de Reintentos.
-3. Procesador principal de eventos:<br>
-   El worker que procesa segun las reglas de negocio, según el estado y CUS que hemos analizado, actualiza el OMA y el contador de visitas.
+   Persiste los eventos, asegurando que no se pierdan si los sistemas posteriores fallan. Permite que el Procesador Principal consuma los eventos a su propio ritmo. Se configura con una política de reintentos (p. ej., reintentar 3 veces con esperas exponenciales). Cumple el requisito de lógica de reintentos.
 
-4. Cola de Mensajes Muertos de los principales (DLQ):
-   Si un mensaje falla repetidamente en la cola principal se mueve aquí.
+3. Procesador principal de eventos:<br>
+   Worker que procesa según las reglas de negocio, según el estado y CUS que hemos analizado; actualiza el OMS y el contador de visitas.
+
+4. Cola de Mensajes Muertos de los principales (DLQ):<br>
+   Si un mensaje falla repetidamente en la cola principal, se mueve aquí.
 
 5. Cola de Evidencias:<br>
-   Si el evento contiene evidencias, el worker publica un nuevo mensaje en la Cola de Evidencias, estos para procesar por separado la gestión de evidencias.
+   Si el evento contiene evidencias, el worker publica un nuevo mensaje en la Cola de Evidencias; esto para procesar por separado la gestión de evidencias.
 
 6. Gestor de Evidencias:<br>
-   Worker que se encarga de descargar las evidencias adjuntas y las actualiza en el OMS
+   Worker que se encarga de descargar las evidencias adjuntas y actualizarlas en el OMS.
+
 7. Cola de Notificaciones:<br>
    Cola dedicada para manejar el envío de notificaciones a clientes.
-8. Despachador de Notificaciones y Adaptadores:
-   El despachador consume de la Cola de Notificaciones. Lee el mensaje, identifica al cliente y, basándose e invoca al "Adaptador" específico para ese cliente.
 
-   - 8.1. y 8.2. Son adaptadores a nivel del código, según el cliente sms, android notificactions, apple notificatiosn, email, etc.
+8. Despachador de Notificaciones y Adaptadores:<br>
+   El despachador consume de la Cola de Notificaciones. Lee el mensaje, identifica al cliente y, basándose en ello, invoca el "Adaptador" específico para ese cliente.
 
-9. Colsa de Mesajes muertos DLQ:<br>
+   - 8.1. y 8.2. Son adaptadores a nivel de código, según el cliente: SMS, notificaciones de Android, notificaciones de Apple, correo electrónico, etc.
+
+9. Cola de Mensajes Muertos (DLQ):<br>
    Cola de mensajes muertos para la cola de evidencias.
-10. Colsa de Mesajes muertos DLQ:<br>
+
+10. Cola de Mensajes Muertos (DLQ):<br>
     Cola de mensajes muertos para la cola de notificaciones.
 
 ## Justificación de patrones de diseño
 
-- Arquitectura Orientada a Eventos (EDA): Elegida porque el problema es inherentemente basado en eventos ("el courier llegó", "el pedido fue entregado"), patron enfocada en eventos donde lso componentes reacciones y de forma asincrona.( https://aws.amazon.com/es/what-is/eda/)
+- Arquitectura Orientada a Eventos (EDA): Elegida porque el problema es inherentemente basado en eventos ("el courier llegó", "el pedido fue entregado"); patrón enfocado en eventos donde los componentes reaccionan de forma asíncrona. (https://aws.amazon.com/es/what-is/eda/)
 <br>
 <div align="center">
-    <img src="images/image_eda.png" alt="EDA" />
+    <img src="images/image_EDA.png" alt="EDA" />
 </div>
 <br>
 
-- Message Queue (Broker): Garantiza que no se pierdan datos (persistencia), maneja picos ( miles de notificaciones) https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBroker.html
+- Message Queue (Broker): Garantiza que no se pierdan datos (persistencia) y maneja picos (miles de notificaciones). https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageBroker.html
 
 <br>
 <div align="center">
@@ -179,7 +195,7 @@ graph TD
 </div>
 <br>
 
-- Dead-Letter Queue (DLQ): Es el patrón estándar para manejar errores irrecuperables de las colas, mas que guardar los mensajes el componente ofrece opciones de administración para auditarlos, notificar a soporte, reasignarlo a la cola principal una ves arreglado el problema. ( https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html )
+- Dead-Letter Queue (DLQ): Es el patrón estándar para manejar errores irrecuperables de las colas; más que guardar los mensajes, el componente ofrece opciones de administración para auditarlos, notificar a soporte y reasignarlos a la cola principal una vez arreglado el problema. (https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html )
 
 <br>
 <div align="center">
@@ -187,19 +203,19 @@ graph TD
 </div>
 <br>
 
-- Adapter Pattern: Mas para la implementación donde se tiene interfaces de clientes, y se van implementando segun cada cliente.
+- Adapter Pattern: Más para la implementación donde se tienen interfaces de clientes y se van implementando según cada cliente.
   https://refactoring.guru/es/design-patterns/adapter
 
 <div align="center">
     <img src="images/image_adapter.png" alt="Adapter Pattern" />
 </div>
 
-- No es un patron, pero se uso el principcio, de "Separación de responsabilidades", en lugar de un gran servicio monolítico, dividimos las tareas/responsabilidades en componente, asi poder escalar y tolerar la carga de notificaciones
+- No es un patrón, pero se usó el principio de "separación de responsabilidades": en lugar de un gran servicio monolítico, se dividieron las tareas/responsabilidades en componentes para poder escalar y tolerar la carga de notificaciones.
 
 # Mejoras
 
-- Multi AZ segun la zona geografica para catastrofes
-- Optimizacion de costos con tipos de storage
-- CDN si se desea acceder a las fotos de forma mas rapida y con baja latencia
-- Redudancia de la base de datos para accesos solo de lectura(replicas de lectura)
-- Monitoreo y alarmas para los servicios(Healtchecks)
+- Multi-AZ según la zona geográfica para catástrofes.
+- Optimización de costos con tipos de almacenamiento.
+- CDN si se desea acceder a las fotos de forma más rápida y con baja latencia.
+- Redundancia de la base de datos para accesos solo de lectura (réplicas de lectura).
+- Monitoreo y alertas para los servicios (health checks).

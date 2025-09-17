@@ -1,10 +1,30 @@
+# Implementación
+
+## Tabla de contenidos
+
+- [Notas](#notas)
+- [Backlog](#backlog)
+- [Paso 0: SETUP](#paso-0-setup)
+- [Paso 1: Crear la Estructura de la Solución.](#paso-1-crear-la-estructura-de-la-solucion)
+  - [Representación](#representacion)
+- [Paso 2: Definir Dominios y Contratos](#paso-2-definir-dominios-y-contratos)
+- [Paso 3: Construir el Endpoint de la API](#paso-3-construir-el-endpoint-de-la-api)
+- [Paso 4: Construir la Infraestructura Falsa](#paso-4-construir-la-infraestructura-falsa)
+- [Paso 5: Construir los Workers de Fondo](#paso-5-construir-los-workers-de-fondo)
+- [Paso 6: Implementar el Procesador Principal](#paso-6-implementar-el-procesador-principal)
+- [Paso 7: Implementar los Procesadores Secundarios](#paso-7-implementar-los-procesadores-secundarios)
+- [Paso 8: Configurar la Inyección de Dependencias](#paso-8-configurar-la-inyeccion-de-dependencias)
+- [Paso 9: Añadir Logging Detallado](#paso-9-anadir-logging-detallado)
+- [Paso 10: Pruebas](#paso-10-pruebas)
+- [Paso 11: Documentar y Publicar](#paso-11-documentar-y-publicar)
+- [Comandos útiles](#comandos-utiles)
+- [Mejoras](#mejoras)
+
 # Notas
 
-- Para la implementación , para ser mas generico en caso usen alguna IDE especual usare VS Code con plugins de .net
+- Se decidió usar Visual Studio Code en vez de Visual Studio; según su página, no tendrá soporte y será descontinuado.
 
-- Se decidió usar visual studio code en ves de visual studio, segun su pagina no tendra soporte y sera desocntinuado
-
-![visual studio decontinuado](images/image_vs_decontinuado.png)
+![Visual Studio descontinuado](images/image_vs_decontinuado.png)
 
 # Backlog
 
@@ -19,7 +39,7 @@
 [x] **Paso 8: Configurar la Inyección de Dependencias.**<br>
 [x] **Paso 9: Añadir Logging Detallado.**<br>
 [x] **Paso 10: Pruebas.**<br>
-[x] **Paso 11: Documentar y Publicarmk.**<br>
+[x] **Paso 11: Documentar y Publicar.**<br>
 
 <br>
 <br>
@@ -32,7 +52,7 @@
 - Instalación del SDK 8.0<br>
   https://dotnet.microsoft.com/es-es/download/dotnet/8.0
 
-- Instalación del plugin c# Dev Kit<br>
+- Instalación de la extensión C# Dev Kit<br>
   https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit
 
 # Paso 1: Crear la Estructura de la Solución.
@@ -86,58 +106,58 @@ Build succeeded.
 
 ## Representación
 
-- Api, representara el webhook
-- Infrastructure, tendra las implementaciones
-  - Queue, sera las colas Main, Evidence y Notification
-  - OrderRepository, seral el sistema OMS
-  - EventHistoryRepository, sera la BD de auditoria
-  - FakeCloudStorage, sera el repo de evidencias
-  - ClientAWebHookAdapter y ClientMailAdapter, adaptadores de clientes
-- EventProcessing, tendra los procesadores de eventos, los llamados worker con la logica de negocio
+- API: representará el webhook.
+- Infrastructure: tendrá las implementaciones
+  - Queue: serán las colas Main, Evidence y Notification.
+  - OrderRepository: será el sistema OMS.
+  - EventHistoryRepository: será la BD de auditoría.
+  - FakeCloudStorage: será el repositorio de evidencias.
+  - ClientAWebHookAdapter y ClientMailAdapter: adaptadores de clientes.
+- EventProcessing: tendrá los procesadores de eventos (workers) con la lógica de negocio
   - MainEventProcessor
   - EvidenceProcessor
   - NotificationProcessor
-- Application.Contracts, tendrá los contratos o interfaces de cada componente
-- Domain, tendra los modelos de los datos que se usaran(el json del webhook)
+- Application.Contracts: tendrá los contratos o interfaces de cada componente.
+- Domain: tendrá los modelos de datos que se usarán (el JSON del webhook).
 
 # Paso 2: Definir Dominios y Contratos
 
-- Se uso clases record para clases tipo dto, es decir de solo data
-- Se uso metodos task para indicar tareas asincronas
-- Se uso CancellationToken, una clase que permite cancelar tareas desde otro hilos enviandolo como referencia.
+- Se usó clases record para clases tipo DTO, es decir, de solo datos.
+- Se usó métodos Task para indicar tareas asíncronas.
+- Se usó CancellationToken, una clase que permite cancelar tareas desde otros hilos, enviándolo como referencia.
 
 # Paso 3: Construir el Endpoint de la API
 
-ok
+OK.
 
 # Paso 4: Construir la Infraestructura Falsa
 
-- instalar la extention de login
+- Instalar la extensión de logging
 
 ```shell
 dotnet add src/IntegrationService.Infrastructure/IntegrationService.Infrastructure.csproj package Microsoft.Extensions.Logging
 ```
 
-- Se uso BlockingCollection, clase especial para entornos concurrentes y permite agregar elementos y juega con CancellationToken, para cancelar sus operaciones.
+- Se usó BlockingCollection, una clase especial para entornos concurrentes que permite agregar elementos y funciona con CancellationToken para cancelar sus operaciones.
 
 # Paso 5: Construir los Workers de Fondo
 
-- Paso critico para preparar el flujo para las reglas de negocio con el deque de las colas
+- Paso crítico para preparar el flujo para las reglas de negocio con el dequeue de las colas.
 
 # Paso 6: Implementar el Procesador Principal
 
-- Se asumió algunos casos no contemplados en el documento:
-  - Que pasa si la orden no existe en la OSM, se registra pero ignora el evento.
-  - Si el llega a 3 como contador de visitas, se procesa inmediatamente.
-  - No se esta implementando el patron DLQ, Si ocurre un error el proceso continua, en un entorno real el SQS podría manejarlo segun su configuración
+- Se asumieron algunos casos no contemplados en el documento:
+  - Qué pasa si la orden no existe en el OMS: se registra, pero se ignora el evento.
+  - Si llega a 3 como contador de visitas, se procesa inmediatamente.
+  - No se está implementando el patrón DLQ. Si ocurre un error, el proceso continúa; en un entorno real, SQS podría manejarlo según su configuración.
 
 # Paso 7: Implementar los Procesadores Secundarios
 
-- Similar al main processor
+- Similar al procesador principal.
 
 # Paso 8: Configurar la Inyección de Dependencias
 
-- Es la parte critica de enlzar las interfaces con sus implementaciones y que corra los procesor para ir tomando los eventos de las colas
+- Es la parte crítica de enlazar las interfaces con sus implementaciones y que corran los procesadores para ir tomando los eventos de las colas
 
 ```c#
 ...
@@ -148,7 +168,7 @@ builder.Services.AddSingleton<INotificationQueue, InMemoryNotificationQueue>();
 ...
 ```
 
-- Al ejecutar cada asyntask de los processor debe ejecutarse de forma asyncrona para evitar stoper
+- Al ejecutar cada async task de los procesadores, debe ejecutarse de forma asíncrona para evitar bloqueos
 
 ```c#
 ...
@@ -159,11 +179,11 @@ await Task.Run(async () =>
 
 # Paso 9: Añadir Logging Detallado
 
-- Se añadieron mas logs
+- Se añadieron más logs.
 
 # Paso 10: Pruebas
 
-- Se realizaron pruebas
+- Se realizaron pruebas.
 
 ```shell
 
@@ -366,9 +386,11 @@ warn: IntegrationService.EventProcessing.MainEventProcessor[0]
 
 ```
 
-# Paso 11: Documentar y Publicarmk
+# Paso 11: Documentar y Publicar
 
-## Comandos utiles
+ok
+
+# Comandos útiles
 
 ```shell
 # agregar referencias
@@ -384,5 +406,5 @@ dotnet run --project src/IntegrationService.Api/IntegrationService.Api.csproj
 
 # Mejoras
 
-- Realizar test para probar mas casuisticas mas exastivas, casos borde, casos ramdom, casos no existentes, etc.
-- Usar sqlite como fake repository y poder analizar las pruebas de varios ciclos
+- Realizar tests para probar más casuísticas más exhaustivas: casos borde, casos aleatorios, casos no existentes, etc.
+- Usar SQLite como repositorio simulado y poder analizar las pruebas de varios ciclos.
