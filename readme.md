@@ -24,6 +24,7 @@ La solución está desarrollada en .NET 8 y simula la arquitectura diseñada sin
 - [Documentación](#documentación)
 - [Setup](#setup)
 - [Pruebas](#pruebas)
+- [Referencias](#referencias)
 - [Contact](#contact)
 
 <br>
@@ -114,7 +115,7 @@ dotnet run --project src/IntegrationService.Api/IntegrationService.Api.csproj
 
 # Referencias
 
-- 🧪 **Ver Referencias consultadas:** [`doc/referencias.md`](doc/referencias.md)
+- 📚 **Ver Referencias consultadas:** [`doc/referencias.md`](doc/referencias.md)
 
 <br>
 
