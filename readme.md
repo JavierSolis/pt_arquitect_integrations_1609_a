@@ -112,6 +112,12 @@ dotnet run --project src/IntegrationService.Api/IntegrationService.Api.csproj
 
 <br>
 
+# Referencias
+
+- 🧪 **Ver Referencias consultadas:** [`doc/referencias.md`](doc/referencias.md)
+
+<br>
+
 # Contact
 
 <div align="center">
